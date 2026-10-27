@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual do Radar Criativo Mafê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Manual de consulta: índice fixo à esquerda, texto em coluna de leitura, prints reais das telas */
+  --bg:#f4f6f7;
+  --paper:#ffffff;
+  --ink:#17242b;
+  --muted:#55656d;
+  --line:#dbe2e5;
+  --accent:#0d6b6b;
+  --accent-soft:#e3f1f0;
+  --analog:#fff5dc;
+  --analog-line:#d9a21b;
+  --analog-ink:#5b4300;
+  --warn:#fdecea;
+  --warn-line:#c2412d;
+  --ok:#e7f4e6;
+  --ok-line:#3b8a3a;
+  --font-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#11181c; --paper:#182227; --ink:#e6eef0; --muted:#9db0b7; --line:#2a3a41;
+    --accent:#5cc4bd; --accent-soft:#163a3a; --analog:#2f2712; --analog-line:#d9a21b; --analog-ink:#f3dc9c;
+    --warn:#3a1f1b; --warn-line:#ef7a63; --ok:#1c3020; --ok-line:#7cc47a; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11181c; --paper:#182227; --ink:#e6eef0; --muted:#9db0b7; --line:#2a3a41;
+  --accent:#5cc4bd; --accent-soft:#163a3a; --analog:#2f2712; --analog-line:#d9a21b; --analog-ink:#f3dc9c;
+  --warn:#3a1f1b; --warn-line:#ef7a63; --ok:#1c3020; --ok-line:#7cc47a; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:18px;line-height:1.6}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--analog-line);outline-offset:2px;border-radius:4px}
+.layout{display:grid;grid-template-columns:290px minmax(0,1fr);gap:0;max-width:1320px;margin:0 auto}
+nav.toc{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:28px 18px 40px 22px;border-right:1px solid var(--line);font-size:15px;line-height:1.4}
+nav.toc .brand{font-family:var(--font-display);font-weight:800;font-size:19px;margin-bottom:4px}
+nav.toc .sub{color:var(--muted);font-size:13px;margin-bottom:18px}
+nav.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+nav.toc ol ol{padding-left:14px;margin:2px 0 8px}
+nav.toc a{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--ink)}
+nav.toc a:hover{background:var(--accent-soft)}
+nav.toc ol ol a{color:var(--muted);font-size:14px;padding:3px 8px}
+main{padding:36px clamp(16px,4vw,56px) 80px;min-width:0}
+.col{max-width:860px}
+header.hero{padding:8px 0 28px;border-bottom:2px solid var(--ink);margin-bottom:28px}
+.kicker{font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(34px,5vw,52px);font-weight:800;margin:8px 0 12px}
+h2{font-size:32px;font-weight:800;margin:64px 0 14px;padding-top:12px;border-top:1px solid var(--line)}
+h3{font-size:23px;font-weight:600;margin:40px 0 10px}
+h4{font-size:19px;font-weight:600;margin:26px 0 8px}
+p{margin:0 0 14px}
+.lead{font-size:20px;color:var(--muted);max-width:62ch}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.btn{font:inherit;font-size:15px;font-weight:700;border:1.5px solid var(--accent);background:var(--paper);color:var(--accent);padding:9px 14px;border-radius:8px;cursor:pointer}
+.btn.primary{background:var(--accent);color:var(--paper)}
+.btn:hover{filter:brightness(1.05)}
+.area-tag{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--accent-soft);color:var(--accent);padding:3px 9px;border-radius:999px;margin-bottom:6px}
+.ui{font-weight:700;background:var(--accent-soft);color:var(--ink);padding:1px 7px;border-radius:5px;white-space:nowrap;font-size:.95em}
+ol.steps{counter-reset:s;list-style:none;padding:0;margin:14px 0 20px;display:grid;gap:10px}
+ol.steps>li{counter-increment:s;position:relative;padding:12px 16px 12px 58px;background:var(--paper);border:1px solid var(--line);border-radius:10px}
+ol.steps>li::before{content:counter(s);position:absolute;left:14px;top:11px;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--paper);font-weight:700;display:grid;place-items:center;font-size:16px}
+ul{padding-left:22px;margin:0 0 14px}
+li{margin:3px 0}
+.serve{background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:8px;padding:12px 16px;margin:10px 0 14px}
+.serve b{color:var(--accent)}
+.callout{border-radius:8px;padding:12px 16px;margin:14px 0;border-left:5px solid}
+.callout.atencao{background:var(--warn);border-color:var(--warn-line)}
+.callout.dica{background:var(--ok);border-color:var(--ok-line)}
+.callout b:first-child{display:block;margin-bottom:2px}
+details.analogia{margin:12px 0 18px;border:1.5px dashed var(--analog-line);border-radius:10px;background:transparent}
+details.analogia>summary{cursor:pointer;list-style:none;padding:9px 14px;font-weight:700;color:var(--analog-ink);font-size:16px;display:flex;align-items:center;gap:8px}
+details.analogia>summary::-webkit-details-marker{display:none}
+details.analogia>summary::before{content:"";width:18px;height:18px;flex:none;background:var(--analog-line);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a7 7 0 0 0-4 12.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26A7 7 0 0 0 12 2zm-3 18h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a7 7 0 0 0-4 12.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26A7 7 0 0 0 12 2zm-3 18h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1z'/%3E%3C/svg%3E") center/contain no-repeat}
+details.analogia>summary::after{content:"mostrar";margin-left:auto;font-weight:400;font-size:13px;opacity:.8}
+details.analogia[open]>summary::after{content:"esconder"}
+details.analogia[open]{background:var(--analog);border-style:solid}
+details.analogia .inner{padding:0 16px 12px 40px;color:var(--analog-ink)}
+details.analogia .inner p:last-child{margin-bottom:0}
+figure{margin:16px 0 22px}
+figure img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:8px;cursor:zoom-in;background:var(--paper)}
+figcaption{font-size:14px;color:var(--muted);margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:16px;margin:10px 0 18px;background:var(--paper)}
+.tablewrap{overflow-x:auto}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.map{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:16px 0}
+.map .box{background:var(--paper);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:10px;padding:12px 14px}
+.map .box h4{margin:0 0 4px}
+.map .box p{font-size:15px;color:var(--muted);margin:0}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0;font-weight:700;font-size:15px}
+.flow span{background:var(--paper);border:1.5px solid var(--accent);border-radius:999px;padding:5px 12px}
+.flow i{font-style:normal;color:var(--muted)}
+.lightbox{position:fixed;inset:0;background:rgba(10,16,20,.88);display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:24px;z-index:50;cursor:zoom-out}
+.lightbox.on{display:flex}
+.lightbox img{max-width:min(1400px,100%);height:auto;border-radius:8px}
+.mobile-toc{display:none}
+footer{margin-top:60px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+@media (max-width:980px){
+  .layout{grid-template-columns:1fr}
+  nav.toc{display:none}
+  .mobile-toc{display:block;margin:18px 0}
+  body{font-size:17px}
+}
+@media print{
+  nav.toc,.toolbar,.mobile-toc{display:none}
+  .layout{display:block}
+  details.analogia .inner{display:block}
+  figure{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="toc" aria-label="Índice">
+  <div class="brand">Radar Criativo Mafê</div>
+  <div class="sub">Manual de uso · versão do painel v4</div>
+  <ol>
+    <li><a href="#o-que-e">1. O que é o sistema</a></li>
+    <li><a href="#limites">2. O que ele faz e não faz</a></li>
+    <li><a href="#conceitos">3. Palavras que você vai ver</a></li>
+    <li><a href="#tela">4. Conhecendo a tela</a></li>
+    <li><a href="#dados">5. Onde ficam seus dados</a></li>
+    <li><a href="#primeira-vez">6. Primeira vez: roteiro de 10 passos</a></li>
+    <li><a href="#analisar">7. Área 1 · Analisar</a>
+      <ol>
+        <li><a href="#a-comece">Comece por aqui</a></li>
+        <li><a href="#a-visao">Visão Geral & Métricas</a></li>
+        <li><a href="#a-biblioteca">Biblioteca e cadastro</a></li>
+        <li><a href="#a-rankings">Rankings e 3 Camadas</a></li>
+        <li><a href="#a-confianca">Alertas e Confiabilidade</a></li>
+        <li><a href="#a-comparar">Comparações</a></li>
+        <li><a href="#a-seo">SEO, Legenda & CTA</a></li>
+        <li><a href="#a-padroes">Padrões e Decisão Final</a></li>
+        <li><a href="#a-video">Analisar vídeo por objetivo</a></li>
+        <li><a href="#a-outros">Central, Histórico, Critérios</a></li>
+      </ol>
+    </li>
+    <li><a href="#planejar">8. Área 2 · Planejar</a></li>
+    <li><a href="#testar">9. Área 3 · Testar</a></li>
+    <li><a href="#vender">10. Área 4 · Vender</a></li>
+    <li><a href="#centro">11. Centro de Inteligência V4</a></li>
+    <li><a href="#receitas">12. Receitas prontas</a></li>
+    <li><a href="#problemas">13. Deu algo errado?</a></li>
+    <li><a href="#regras">14. Regras de ouro</a></li>
+  </ol>
+</nav>
+
+<main>
+<div class="col">
+<header class="hero" id="inicio">
+  <div class="kicker">Manual de uso · Mafê Bolsas · TikTok</div>
+  <h1>Manual do Radar Criativo Mafê</h1>
+  <p class="lead">Para que serve o sistema, o que cada parte faz e o passo a passo para usar tudo sozinha, sem precisar de alguém explicando ao lado.</p>
+  <p>Endereço do sistema: <a href="https://rafael26061994-afk.github.io/mafe/">rafael26061994-afk.github.io/mafe</a></p>
+  <div class="callout dica"><b>Como ler este manual</b>Cada parte tem três coisas: <b>para que serve</b>, <b>o passo a passo</b> e, quando ajuda, uma <b>comparação com o dia a dia</b>. As comparações ficam escondidas na caixa pontilhada amarela. Clique nela só se a explicação técnica não ficou clara. Clique em qualquer imagem para vê-la grande.</div>
+  <div class="toolbar">
+    <button class="btn primary" type="button" id="abrirTodas">Mostrar todas as comparações</button>
+    <button class="btn" type="button" id="fecharTodas">Esconder todas as comparações</button>
+  </div>
+  <details class="mobile-toc analogia" style="border-color:var(--accent)">
+    <summary style="color:var(--accent)">Índice do manual</summary>
+    <div class="inner" id="mobileTocInner"></div>
+  </details>
+</header>
+
+<!-- 1 -->
+<section id="o-que-e">
+<h2>1. O que é o Radar Criativo Mafê</h2>
+<p>O Radar Criativo Mafê é um painel que roda no navegador para ajudar a Mafê Bolsas a <b>decidir que vídeos gravar no TikTok</b> e a <b>descobrir, com dados, o que realmente vende</b>.</p>
+<p>Ele já vem com 26 vídeos de outras pessoas (chamados <b>referências</b>, de V01 a V26), com curtidas, salvamentos, comentários, compartilhamentos e visualizações coletados em 21/10/2026. A partir deles, o painel mostra o que os melhores vídeos têm em comum, sugere o que testar e ajuda a montar roteiros. Depois, você cadastra os <b>vídeos da própria Mafê</b> e registra cliques, pedidos e custos para ver se o vídeo trouxe venda e lucro.</p>
+<p>O sistema é organizado em quatro áreas, que seguem a ordem natural do trabalho:</p>
+<div class="map">
+  <div class="box"><h4>1. Analisar</h4><p>Estudar os vídeos: notas, rankings, padrões, alertas e o que gravar a seguir.</p></div>
+  <div class="box"><h4>2. Planejar</h4><p>Transformar a ideia em roteiro: ganchos, fala, texto na tela, legenda e plano de gravação.</p></div>
+  <div class="box"><h4>3. Testar</h4><p>Publicar duas versões mudando uma coisa só e registrar o que aconteceu.</p></div>
+  <div class="box"><h4>4. Vender</h4><p>Ligar o vídeo a cliques, pedidos, receita, custos, margem e ROAS.</p></div>
+</div>
+<p>A ideia central aparece logo no topo do painel, no quadro <b>Ciclo de Decisão</b>: em vez de procurar o "vídeo vencedor", você trabalha com <b>hipóteses comprovadas</b>.</p>
+<div class="flow"><span>Observar</span><i>→</i><span>Comparar</span><i>→</i><span>Formular hipótese</span><i>→</i><span>Gravar e testar</span><i>→</i><span>Aprender</span><i>→ e recomeçar</i></div>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner">
+<p>Pense numa confeitaria que quer lançar um bolo novo. Primeiro ela prova os bolos que fazem sucesso em outras confeitarias (<b>Analisar</b>). Depois escreve a receita do seu bolo (<b>Planejar</b>). Faz duas fornadas mudando só a quantidade de açúcar para ver qual fica melhor (<b>Testar</b>). Por fim, confere quantos bolos vendeu e quanto sobrou de dinheiro depois de pagar ingredientes e embalagem (<b>Vender</b>).</p>
+<p>O Radar é o caderno dessa confeitaria, só que para vídeos de bolsas.</p>
+</div></details>
+</section>
+
+<!-- 2 -->
+<section id="limites">
+<h2>2. O que o sistema faz e o que ele não faz</h2>
+<p>Saber os limites evita conclusões erradas. O próprio painel repete esses avisos em várias telas.</p>
+<div class="tablewrap"><table>
+<thead><tr><th>O sistema faz</th><th>O sistema não faz</th></tr></thead>
+<tbody>
+<tr><td>Mostra quais vídeos tiveram mais atenção do público (curtidas, salvamentos etc.).</td><td>Não diz qual vídeo de referência vendeu mais. Vídeos de outras pessoas não têm dados de venda.</td></tr>
+<tr><td>Calcula notas, padrões e sugestões de teste a partir dos números que você informa.</td><td>Não puxa números do TikTok sozinho. Tudo é digitado ou colado por você.</td></tr>
+<tr><td>Deixa você assistir a um vídeo dentro da página e dar nota a cada critério.</td><td>Não "assiste" ao vídeo com inteligência artificial por conta própria. Ele monta um texto (briefing) para você levar a uma IA.</td></tr>
+<tr><td>Gera roteiros, ganchos, legendas e respostas a partir de modelos prontos.</td><td>Não garante alcance nem vendas. Todo roteiro é rascunho e precisa ser testado.</td></tr>
+<tr><td>Guarda tudo no navegador do aparelho que você está usando.</td><td>Não sincroniza sozinho entre computadores ou pessoas. Para levar os dados, use o backup.</td></tr>
+<tr><td>Calcula margem, ponto de equilíbrio e ROAS com os custos que você informar.</td><td>Não inventa custo, preço ou frete. Os valores que já aparecem preenchidos na calculadora são só exemplos.</td></tr>
+</tbody></table></div>
+<div class="callout atencao"><b>O aviso laranja no topo</b>Enquanto aparecer <span class="ui">⚠️ Uso exploratório: não use o ranking para decisões comerciais</span>, os números servem para estudar e levantar ideias, não para decidir onde investir. Hoje o painel atende 6 de 7 critérios; falta informar se o tráfego de cada vídeo foi orgânico ou pago.</div>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner">
+<p>Ver muita gente parada olhando a vitrine de uma loja não prova que alguém entrou e comprou. Curtidas e salvamentos são a vitrine. Cliques e pedidos são o caixa. O Radar mostra bem a vitrine dos vídeos de referência, mas só consegue mostrar o caixa dos vídeos da própria Mafê.</p>
+</div></details>
+</section>
+
+<!-- 3 -->
+<section id="conceitos">
+<h2>3. Palavras que você vai ver no painel</h2>
+<p>O painel tem um glossário próprio em <span class="ui">Comece por aqui → 📘 Glossário em linguagem simples</span>. Abaixo estão os termos mais usados.</p>
+<div class="tablewrap"><table>
+<thead><tr><th style="width:30%">Termo</th><th>O que significa</th></tr></thead>
+<tbody>
+<tr><td><b>Referência (V01–V26)</b></td><td>Vídeo de outra pessoa, usado só para estudo. Fica protegido: você não consegue editar os números dele.</td></tr>
+<tr><td><b>Vídeo próprio da Mafê</b></td><td>Vídeo publicado pela Mafê. É o único tipo que aceita cliques, pedidos e custos, e o único que libera a área Vender.</td></tr>
+<tr><td><b>Gancho</b></td><td>O que acontece nos primeiros 3 segundos do vídeo para a pessoa não passar direto.</td></tr>
+<tr><td><b>CTA</b> (chamada para ação)</td><td>O pedido final do vídeo: "confira no carrinho", "salve este vídeo", "siga a Mafê". O ideal é ter uma só.</td></tr>
+<tr><td><b>Prova visual / packing</b></td><td>Mostrar de verdade: objetos entrando na bolsa, a bolsa no corpo, o zíper funcionando.</td></tr>
+<tr><td><b>Engajamento bruto</b></td><td>Soma de curtidas + comentários + compartilhamentos + salvamentos.</td></tr>
+<tr><td><b>Nota combinada (0 a 10)</b></td><td>Nota final de cada vídeo: por padrão, 60% vem da qualidade do criativo e 40% da reação do público.</td></tr>
+<tr><td><b>Contagem × taxa</b></td><td>Contagem é o total (50 mil curtidas). Taxa divide pelo total de visualizações, o que permite comparar vídeos grandes e pequenos de forma justa.</td></tr>
+<tr><td><b>Salvamentos ÷ curtidas</b></td><td>Sinal de intenção: quem salva quer voltar ao vídeo, talvez para comprar.</td></tr>
+<tr><td><b>Amostra (n)</b></td><td>Quantos vídeos entram numa conta. Com menos de 3, a conclusão é frágil.</td></tr>
+<tr><td><b>Nível de evidência</b></td><td><i>Sinal inicial</i> = indício fraco. <i>Promissor</i> = resultado bom com dado confiável. <i>Replicado</i> = resultado repetido em outro vídeo parecido.</td></tr>
+<tr><td><b>Hipótese</b></td><td>Uma aposta escrita antes do teste: "se eu mudar X, espero que Y aconteça, porque Z".</td></tr>
+<tr><td><b>Teste A/B</b></td><td>Publicar duas versões quase iguais (A e B) mudando uma coisa só, para saber o que fez diferença.</td></tr>
+<tr><td><b>ROAS</b></td><td>Receita dividida pelo valor gasto em anúncio. ROAS 3x = cada R$ 1 investido trouxe R$ 3 em vendas. Não é lucro.</td></tr>
+<tr><td><b>Margem de contribuição</b></td><td>O que sobra de cada venda depois de tirar custo da bolsa, taxas, frete, embalagem e anúncio.</td></tr>
+<tr><td><b>Snapshot</b></td><td>Uma "foto" dos números num dia, para acompanhar a evolução.</td></tr>
+<tr><td><b>Briefing para IA</b></td><td>Texto pronto que o painel monta para você colar numa ferramenta de inteligência artificial, junto com o vídeo.</td></tr>
+</tbody></table></div>
+<details class="analogia"><summary>Ver comparação: contagem × taxa</summary><div class="inner">
+<p>Um jogador fez 10 gols em 100 jogos. Outro fez 5 gols em 10 jogos. Quem fez mais gols foi o primeiro (contagem), mas quem marca com mais frequência é o segundo (taxa: meio gol por jogo contra um décimo). Com vídeos é igual: um vídeo com 10 milhões de visualizações quase sempre terá mais curtidas que um com 500 mil, e isso não quer dizer que ele agradou mais.</p>
+</div></details>
+<details class="analogia"><summary>Ver comparação: nota combinada 60/40</summary><div class="inner">
+<p>É como a nota de um concurso de bolos em que 60% vem dos jurados (técnica: massa, recheio, acabamento) e 40% vem do voto do público. O painel faz o mesmo: 60% pelo checklist do vídeo (gancho, demonstração, prova, visual) e 40% pela reação das pessoas no TikTok. Esse peso pode ser mudado na seção Sensibilidade do Ranking.</p>
+</div></details>
+</section>
+
+<!-- 4 -->
+<section id="tela">
+<h2>4. Conhecendo a tela</h2>
+<p>Ao abrir o endereço do sistema, a tela fica assim:</p>
+<figure><img src="img/01-tela-inicial.jpg" alt="Tela inicial do Radar com menu lateral, abas de área, botões Novo Vídeo, Analisar Selecionados e Dados" loading="lazy"><figcaption>Tela inicial: menu à esquerda, abas de área no alto, botões principais e o Ciclo de Decisão.</figcaption></figure>
+<h3>As partes da tela</h3>
+<div class="tablewrap"><table>
+<thead><tr><th style="width:32%">Parte</th><th>O que faz</th></tr></thead>
+<tbody>
+<tr><td><b>Menu lateral</b> (esquerda)</td><td>Lista todas as seções, separadas nas 4 áreas. Clique num nome para ir direto até ele. O botão <span class="ui">‹</span> no alto do menu recolhe a lateral para ganhar espaço. No celular, o menu abre por um botão próprio.</td></tr>
+<tr><td><b>Abas de área</b> (alto)</td><td><span class="ui">🌐 Todas as Áreas</span>, <span class="ui">1. Analisar</span>, <span class="ui">2. Planejar</span>, <span class="ui">3. Testar</span>, <span class="ui">4. Vender</span>. Ao escolher uma área, a página passa a mostrar só as seções dela. Para ver tudo de novo, clique em Todas as Áreas.</td></tr>
+<tr><td><b>Zoom</b> <span class="ui">−</span> <span class="ui">100%</span> <span class="ui">+</span></td><td>Aumenta ou diminui o tamanho de tudo. Se as letras estiverem pequenas, clique em <span class="ui">+</span>.</td></tr>
+<tr><td><span class="ui">🌙 Escuro</span></td><td>Troca para o modo escuro (fundo preto). Clique de novo para voltar ao claro.</td></tr>
+<tr><td><span class="ui">➕ Novo Vídeo</span></td><td>Abre o formulário para cadastrar um vídeo (veja a seção 7, Biblioteca e cadastro).</td></tr>
+<tr><td><span class="ui">🎬 Analisar Selecionados</span></td><td>Compara os vídeos que você marcou na Biblioteca. Só funciona com vídeos que você cadastrou; as referências não podem ser marcadas.</td></tr>
+<tr><td><span class="ui">💾 Dados ▾</span></td><td>Menu de segurança dos dados: backup, restaurar, exportar planilha (veja a seção 5).</td></tr>
+<tr><td><b>Validação dos dados</b></td><td>Selo que diz se os números já servem para decisão. Clique em <span class="ui">ver detalhes</span> para abrir a lista de critérios.</td></tr>
+<tr><td><span class="ui">Modo de usar</span></td><td>Barra que abre um resumo de uso do próprio painel, área por área.</td></tr>
+<tr><td><b>📖 Como ler esta seção</b></td><td>Quase toda seção tem esse quadro com três linhas: <i>Para que serve</i>, <i>Como ler</i> e <i>O que fazer</i>. Se quiser uma tela mais limpa, use o botão <span class="ui">Ocultar explicações das seções</span> em Comece por aqui.</td></tr>
+</tbody></table></div>
+<figure><img src="img/61-filtro-area.jpg" alt="Página filtrada mostrando só a área Testar" loading="lazy"><figcaption>Com a aba <b>3. Testar</b> escolhida, o menu e a página mostram só as seções de teste.</figcaption></figure>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner">
+<p>O painel é como um supermercado grande. O menu lateral é a placa com o nome de cada corredor. As abas de área são os setores (hortifrúti, padaria, limpeza): ao entrar em um setor, você só vê as prateleiras dele. "Todas as Áreas" é andar pela loja inteira.</p>
+</div></details>
+</section>
+
+<!-- 5 -->
+<section id="dados">
+<h2>5. Onde ficam seus dados (leia antes de começar)</h2>
+<p>Tudo o que você digita fica salvo <b>no navegador do aparelho que você está usando</b>. Não existe conta nem login. Isso tem três consequências práticas:</p>
+<ul>
+<li>Se você abrir o sistema em outro computador, no celular ou em outro navegador, seus cadastros <b>não estarão lá</b>.</li>
+<li>Se outra pessoa abrir o mesmo link, ela verá a cópia dela, sem os seus registros.</li>
+<li>Se o navegador for limpo (apagar histórico e "dados de sites", modo anônimo), os registros <b>podem sumir</b>.</li>
+</ul>
+<p>Por isso o menu <span class="ui">💾 Dados ▾</span> é tão importante:</p>
+<figure><img src="img/02-menu-dados.jpg" alt="Menu Dados aberto com as opções de backup" loading="lazy"><figcaption>Menu Dados aberto.</figcaption></figure>
+<div class="tablewrap"><table>
+<thead><tr><th style="width:36%">Opção</th><th>Quando usar</th></tr></thead>
+<tbody>
+<tr><td><span class="ui">💾 Backup completo (JSON)</span></td><td>Baixa um arquivo com tudo o que você registrou. Faça ao fim de cada dia de trabalho.</td></tr>
+<tr><td><span class="ui">📤 Restaurar backup</span></td><td>Carrega um arquivo de backup. Use para levar seus dados a outro computador ou recuperar depois de um problema. O painel recarrega a página ao terminar.</td></tr>
+<tr><td><span class="ui">↶ Desfazer restauração</span></td><td>Aparece só depois de uma restauração. Volta ao estado de antes, se você restaurou o arquivo errado.</td></tr>
+<tr><td><span class="ui">📥 Exportar catálogo (CSV)</span></td><td>Baixa a lista de vídeos em formato de planilha (abre no Excel ou Google Planilhas).</td></tr>
+<tr><td><span class="ui">📋 Copiar último arquivo gerado</span></td><td>Se o navegador bloquear um download, esta opção mostra o conteúdo do arquivo para você copiar e salvar manualmente.</td></tr>
+<tr><td><span class="ui">🧪 Verificar integridade</span></td><td>Roda uma bateria de testes internos para conferir se o painel está funcionando bem. Útil quando algo parece estranho.</td></tr>
+</tbody></table></div>
+<h3>Passo a passo: fazer backup</h3>
+<ol class="steps">
+<li>Clique em <span class="ui">💾 Dados ▾</span>, no alto da página.</li>
+<li>Clique em <span class="ui">💾 Backup completo (JSON)</span>.</li>
+<li>O navegador baixa um arquivo terminado em <b>.json</b>. Guarde numa pasta fácil de achar (por exemplo, Google Drive → "Backups Radar"), com a data no nome.</li>
+<li>Se o download não acontecer, abra o menu de novo e clique em <span class="ui">📋 Copiar último arquivo gerado</span>; copie o texto e salve num arquivo com o nome indicado.</li>
+</ol>
+<h3>Passo a passo: levar os dados para outro computador</h3>
+<ol class="steps">
+<li>No computador antigo, faça o backup (passos acima).</li>
+<li>No computador novo, abra o endereço do sistema.</li>
+<li>Clique em <span class="ui">💾 Dados ▾</span> → <span class="ui">📤 Restaurar backup</span> e escolha o arquivo .json.</li>
+<li>Confirme a mensagem. A página recarrega já com seus registros.</li>
+<li>Se escolheu o arquivo errado, use <span class="ui">↶ Desfazer restauração</span> no mesmo menu.</li>
+</ol>
+<div class="callout atencao"><b>Nunca coloque senhas ou chaves no painel</b>O backup não guarda credenciais, e o próprio sistema avisa para não colar chaves de API nas páginas. Dados de vendas também não devem ir para o repositório público do GitHub.</div>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner">
+<p>Imagine que o painel é um caderno guardado na gaveta da sua mesa. Quem abre o mesmo link em outra mesa recebe um caderno em branco igual. O backup é tirar uma cópia (xerox) do seu caderno: com ela você monta o mesmo caderno em qualquer mesa. Se alguém jogar a gaveta fora (limpar o navegador), a cópia salva você.</p>
+</div></details>
+</section>
+
+<!-- 6 -->
+<section id="primeira-vez">
+<h2>6. Primeira vez: roteiro de 10 passos</h2>
+<p>Se você nunca usou o painel, siga esta ordem uma vez. Ela passa pelas partes mais importantes e leva cerca de uma hora.</p>
+<ol class="steps">
+<li><b>Leia o resumo.</b> Abra <span class="ui">🧭 Comece por aqui</span> e leia o quadro "Resumo em 1 minuto". Ele diz quais são os melhores vídeos, o último colocado, os alertas e o próximo passo.</li>
+<li><b>Abra o glossário.</b> Ainda em Comece por aqui, clique em <span class="ui">📘 Glossário em linguagem simples</span> e mantenha a seção 3 deste manual por perto.</li>
+<li><b>Veja o ranking.</b> Vá em <span class="ui">📚 Biblioteca & Rankings</span>, clique em <span class="ui">▶ Assistir</span> nos 5 primeiros e no último colocado. Repare no que muda entre eles.</li>
+<li><b>Entenda uma nota.</b> Clique no código de um vídeo (por exemplo, <span class="ui">V12</span>) para abrir a janela de detalhes e ler "Como a nota foi composta".</li>
+<li><b>Confira se pode confiar.</b> Leia <span class="ui">🚦 Alertas de Qualidade</span>. Alertas vermelhos precisam ser corrigidos antes de qualquer conclusão.</li>
+<li><b>Veja o que se repete.</b> Leia <span class="ui">🎯 Padrões → Planos de Ação</span> e depois <span class="ui">🧭 Decisão Final</span>, que mostra os 3 testes mais promissores.</li>
+<li><b>Transforme em roteiro.</b> Na Decisão Final, clique em <span class="ui">➡ Abrir o gerador de roteiros para este teste</span>, preencha os campos e clique em <span class="ui">✨ Gerar roteiro e legenda</span>.</li>
+<li><b>Registre a aposta.</b> Em <span class="ui">🧭 Protocolo de Decisão & Aprendizado</span>, escreva a hipótese e o critério de sucesso antes de gravar.</li>
+<li><b>Grave, publique e cadastre.</b> Depois de publicar as versões A e B, cadastre cada uma em <span class="ui">➕ Novo Vídeo</span> como <b>Próprio da Mafê</b>.</li>
+<li><b>Feche o ciclo.</b> Registre resultados no <span class="ui">🧪 Ciclo de Testes A/B</span>, cliques e pedidos na <span class="ui">🌉 Ponte Comercial</span> e faça o backup do dia.</li>
+</ol>
+</section>
+
+<!-- 7 ANALISAR -->
+<section id="analisar">
+<h2>7. Área 1 · Analisar</h2>
+<p>Esta é a maior área. Ela responde: <i>o que os vídeos de sucesso têm em comum, quanto podemos confiar nisso e o que vale testar?</i></p>
+
+<h3 id="a-comece">Comece por aqui</h3>
+<div class="serve"><b>Para que serve:</b> dar o resumo de tudo em um minuto e ensinar a ler a área Analisar em 5 passos.</div>
+<figure><img src="img/04-comece-aqui.jpg" alt="Seção Comece por aqui com o resumo em 1 minuto e a completude da análise" loading="lazy"><figcaption>Resumo em 1 minuto, completude da análise e os 5 passos de leitura.</figcaption></figure>
+<ol class="steps">
+<li>Leia o quadro <b>⏱️ Resumo em 1 minuto</b>: melhores vídeos, último colocado, alertas, limites dos dados, padrão mais promissor e próximo passo.</li>
+<li>Olhe a <b>📈 Completude da análise</b>. As barras mostram quantos dos 26 vídeos já têm cada informação preenchida. Quanto mais perto de 26/26, mais completa a análise.</li>
+<li>Siga os 5 passos da lista (Biblioteca → Alertas → Comparação → Padrões → Decisão Final). Cada nome sublinhado leva direto à seção.</li>
+<li>Para guardar o resumo, clique em <span class="ui">📋 Copiar relatório</span> (para colar no WhatsApp ou e-mail) ou <span class="ui">⬇️ Baixar relatório (.md)</span>.</li>
+</ol>
+
+<h3 id="a-visao">Visão Geral & Métricas</h3>
+<div class="serve"><b>Para que serve:</b> mostrar o panorama do catálogo em números e permitir filtrar vídeos.</div>
+<figure><img src="img/05-visao-geral.jpg" alt="Visão Geral com filtros, cartões de números e top 10" loading="lazy"><figcaption>Filtros no alto, cartões com totais e, abaixo, Top 10 e diagnóstico de gargalos.</figcaption></figure>
+<ol class="steps">
+<li>Use os filtros do alto: <b>Buscar vídeo ou termo</b> (digite "tote", "mochila", "V12"...), <b>Sinal criativo</b>, <b>Ordenar por</b>, <b>Rosto</b>, <b>Prova real</b>, <b>Tamanho</b> e <b>Modelo</b>.</li>
+<li>Os cartões mudam conforme o filtro: vídeos com sinais fortes, engajamento total, salvamentos, destaque do recorte e quantos têm prova real.</li>
+<li>Role para ver o <b>Top 10 Notas Qualitativas</b>, os <b>Gargalos Frequentes</b> (por exemplo, "13 criativos · Falta Prova de Packing"), o <b>Mix de Conteúdo</b> e a <b>Média por Elemento Comercial</b>.</li>
+<li>Use como visão geral. As decisões vêm das seções seguintes.</li>
+</ol>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>É o painel de um carro: velocidade, combustível, temperatura. Você olha para ter noção do todo, mas não decide o caminho só por ele. Os gargalos são as luzes acesas: "13 vídeos sem prova de packing" é como a luz do óleo pedindo atenção.</p></div></details>
+
+<h3 id="a-biblioteca">Biblioteca e cadastro de vídeos</h3>
+<div class="serve"><b>Para que serve:</b> é a tabela principal, com todos os vídeos, posição no ranking, nota, métricas, link e produto. Também é onde você cadastra e compara vídeos da Mafê.</div>
+<figure><img src="img/08-biblioteca.jpg" alt="Tabela da Biblioteca com posição, ID, link, sinal criativo, nota e métricas" loading="lazy"><figcaption>Biblioteca: cada linha é um vídeo. Referências aparecem com a etiqueta REFERÊNCIA · LEITURA.</figcaption></figure>
+<h4>Ler a tabela</h4>
+<ol class="steps">
+<li>No campo <b>Exibir</b>, escolha: <i>Todos os registros</i>, <i>Referências V01–V26 (somente leitura)</i> ou <i>Vídeos próprios da Mafê</i>. Os atalhos "Referências V01–V26" e "Vídeos próprios da Mafê" do menu lateral fazem o mesmo.</li>
+<li>A coluna <b>POSIÇÃO</b> vem da nota combinada. A coluna <b>SINAL CRIATIVO</b> mostra 🟢 fortes, 🟡 moderados ou ⚠️ fracos.</li>
+<li>Clique em <span class="ui">▶ Assistir</span> para abrir o vídeo no TikTok em outra aba.</li>
+<li>Clique no código do vídeo (ex.: <span class="ui">V12</span>) para abrir a janela <b>Detalhes do Vídeo</b>.</li>
+</ol>
+<figure><img src="img/24-detalhes-video.jpg" alt="Janela Detalhes do Vídeo do V12" loading="lazy"><figcaption>Detalhes do vídeo: métricas, gancho, legenda original, link e "Como a nota foi composta".</figcaption></figure>
+<p>Na janela de detalhes, o bloco <b>Como a nota foi composta</b> explica a conta. No V12, por exemplo: criativo 76/100, engajamento público 70,6/100, e o final "60% criativo + 40% desempenho = 73,8/100 → nota 7,4". Para fechar, clique no <span class="ui">×</span>.</p>
+
+<h4>Cadastrar um vídeo novo</h4>
+<ol class="steps">
+<li>Clique em <span class="ui">➕ Novo Vídeo</span> (no alto da página ou dentro da Biblioteca).</li>
+<li>O <b>ID do Vídeo</b> já vem preenchido com o próximo número livre (V27, V28...). Pode deixar assim.</li>
+<li>Em <b>Rubrica da nota</b>, dê de 0 a 2 para cada um dos 5 critérios: <b>Gancho</b> (prende nos 3s sem "oi, gente"), <b>Prova</b> (mostra tamanho ou capacidade de forma verificável), <b>Clareza</b> (o benefício é entendido sem som), <b>Ritmo</b> (sem pausas mortas) e <b>CTA</b> (uma única orientação clara). 0 = ausente, 1 = parcial, 2 = claro. A soma vira a nota de 0 a 10 automaticamente.</li>
+<li>Preencha <b>Nome do Produto</b> e <b>Link TikTok</b>.</li>
+<li>Digite as métricas: <b>Salvamentos</b>, <b>Curtidas</b>, <b>Comentários</b>, <b>Compartilhamentos</b> e <b>Visualizações</b>. Se não souber um número, deixe vazio. Vazio é "desconhecido", não zero.</li>
+<li>Em <b>Tipo de vídeo</b>, escolha <b>Próprio da Mafê</b> para vídeos da marca. Esse passo libera a área Vender.</li>
+<li>Complete <b>Duração</b>, <b>Modelo</b> (Tote, Hobo, Baguete, Shoulder, Mochila, Baú), <b>Tamanho</b>, <b>Rosto?</b>, <b>Prova Visual?</b> e <b>Gatilho Inicial (0s–3s)</b>, que é a frase ou cena de abertura.</li>
+<li>Clique em <span class="ui">💾 Salvar Registro</span>. Aparece a mensagem "Vídeo V27 cadastrado".</li>
+</ol>
+<figure><img src="img/26-novo-video-preenchido.jpg" alt="Formulário Adicionar Novo Vídeo preenchido com exemplo" loading="lazy"><figcaption>Exemplo de cadastro preenchido. Com a rubrica 2-2-1-2-1, a nota calculada foi 8.</figcaption></figure>
+<div class="callout dica"><b>Depois de cadastrar</b>As métricas de vídeos próprios podem ser corrigidas direto na tabela: clique no número e digite; o valor é salvo sozinho. Se o vídeo foi salvo sem link, aparece <span class="ui">➕ Colar Link</span> na coluna do link. Após mexer em vários números, clique em <span class="ui">↻ Recalcular ranking</span>.</div>
+
+<h4>Comparar vídeos da Mafê entre si</h4>
+<ol class="steps">
+<li>Em <b>Exibir</b>, escolha <i>Vídeos próprios da Mafê</i>.</li>
+<li>Marque a caixinha na primeira coluna dos vídeos que quer comparar. (Nas referências a caixinha fica cinza e não pode ser marcada.)</li>
+<li>Clique em <span class="ui">🎬 Analisar Selecionados</span>. Abre a janela <b>Análise Comparativa</b> com a soma das métricas e o gancho de cada vídeo.</li>
+</ol>
+<figure><img src="img/28-analise-comparativa.jpg" alt="Janela Análise Comparativa de dois vídeos próprios" loading="lazy"><figcaption>Análise comparativa de dois vídeos próprios cadastrados como exemplo.</figcaption></figure>
+<div class="callout atencao"><b>Botões que mudam muita coisa</b><span class="ui">↺ Restaurar originais</span> desfaz alterações nas métricas do catálogo original. <span class="ui">🧹 Limpar dados de exemplo</span>, quando aparecer, remove registros marcados como EXEMPLO. O painel pede confirmação, mas faça um backup antes.</div>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>A Biblioteca é o fichário de uma escola. As referências são fichas de alunos de outra escola: você pode ler, mas não pode rasurar. Os vídeos da Mafê são os seus alunos: você preenche a ficha, corrige e compara um com o outro. A rubrica de 5 critérios é o boletim com 5 matérias valendo até 2 pontos cada.</p></div></details>
+
+<h3 id="a-rankings">Rankings por Objetivo e 3 Camadas</h3>
+<div class="serve"><b>Para que serve:</b> mostrar que "melhor vídeo" depende do objetivo, e separar o que é potencial criativo, reação do público e venda comprovada.</div>
+<figure><img src="img/06-rankings-objetivo.jpg" alt="Rankings por objetivo com 9 botões" loading="lazy"><figcaption>Nove rankings diferentes: curtidas, engajamento bruto, salvamentos, compartilhamentos, comentários, intenção, viralização, conversa e taxa por visualização.</figcaption></figure>
+<ol class="steps">
+<li>Em <span class="ui">🏆 Rankings por Objetivo</span>, clique no botão do objetivo que interessa. Exemplo: para saber quais vídeos despertam vontade de comprar, clique em <span class="ui">🛒 6. Intenção</span> (salvamentos ÷ curtidas).</li>
+<li>Estude os 3 primeiros do ranking escolhido: veja o gancho e o formato de cada um.</li>
+<li>Em <span class="ui">🧱 3 Camadas</span>, use <b>Ordenar a tabela por</b> e <b>Mostrar</b> para ver as três notas separadas: <b>1 · Potencial criativo</b>, <b>2 · Engajamento público</b> e <b>3 · Conversão comprovada</b>.</li>
+<li>Repare que a camada 3 mostra "Sem dados próprios" em todas as referências. Ela só se preenche quando você registra cliques e pedidos de vídeos da Mafê na Ponte Comercial.</li>
+</ol>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>Numa olimpíada, o mais rápido nos 100 metros não é o melhor no salto em altura. Um vídeo pode ser o 1º em curtidas e só o 10º em intenção de compra. As 3 camadas são como avaliar um restaurante por três perguntas diferentes: a receita é boa? (criativo), o povo elogiou? (público), deu lucro? (vendas). Uma resposta não substitui a outra.</p></div></details>
+
+<h3 id="a-confianca">Alertas de Qualidade e Confiabilidade & Evidência</h3>
+<div class="serve"><b>Para que serve:</b> avisar quando um número parece errado ou incompleto e registrar de onde veio cada dado.</div>
+<figure><img src="img/09-alertas.jpg" alt="Alertas de qualidade com prontidão dos dados para decisão" loading="lazy"><figcaption>Prontidão dos dados (7 critérios) e lista de alertas por gravidade.</figcaption></figure>
+<h4>Alertas de Qualidade</h4>
+<ol class="steps">
+<li>Leia a lista <b>Prontidão dos dados para decisão</b>. Cada critério com ✅ está atendido; ⬜ ainda falta. Clique em <span class="ui">ajustar</span> ao lado para ir direto ao campo que resolve.</li>
+<li>Veja os alertas abaixo. <b>Alta</b> (vermelho) precisa de correção; <b>Média</b> (amarelo) pede atenção; <b>Baixa</b> (cinza) é detalhe. Hoje existem 0 altos, 2 médios e 1 baixo.</li>
+<li>O botão <span class="ui">📅 Sugerir datas de publicação a partir das legendas</span> tenta achar datas completas nas legendas originais.</li>
+</ol>
+<h4>Confiabilidade & Evidência</h4>
+<figure><img src="img/10-confiabilidade.jpg" alt="Tabela de confiabilidade com tipo, origem, data, tráfego e confirmação" loading="lazy"><figcaption>Uma linha por vídeo: tipo, origem dos dados, data da coleta, link, publicação, idade, tráfego e confirmação humana.</figcaption></figure>
+<ol class="steps">
+<li>Para cada vídeo, confira o <b>Tipo</b> (Referência ou Próprio da Mafê). Aqui também dá para mudar um vídeo para Próprio da Mafê.</li>
+<li>Em <b>Origem dos dados</b>, escolha: Registrada manualmente, Extraída por OCR (lida de print), Calculada ou Desconhecida.</li>
+<li>Preencha <b>Data da coleta</b>, <b>Publicado em</b> e, se souber, <b>Tráfego</b> (Orgânico ou Pago). Não marque orgânico ou pago sem ter certeza.</li>
+<li>Marque <b>Confirmado por humano</b> só depois de conferir os números no TikTok. A coluna <b>Confiabilidade</b> sobe conforme você completa a linha (Alta · 0,90, por exemplo).</li>
+</ol>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>Os alertas funcionam como as luzes do painel do carro: vermelho é parar e resolver; amarelo é ficar de olho. A confiabilidade é a diferença entre uma fofoca e uma notícia com fonte: "ouvi dizer que o vídeo teve 1 milhão de views" vale menos do que "conferi no TikTok em 21/10". Dado sem fonte pesa menos nas contas.</p></div></details>
+
+<h3 id="a-comparar">Comparação Equivalente, Comparar Vídeos, Matriz e Sensibilidade</h3>
+<div class="serve"><b>Para que serve:</b> comparar só o que é comparável e testar se o ranking é sólido.</div>
+<h4>Comparação Equivalente</h4>
+<ol class="steps">
+<li>Em <b>Agrupar por</b>, escolha Formato, Modelo, Ocasião, Tamanho ou Cenário.</li>
+<li>Em <b>Tráfego</b> e <b>Idade do vídeo na coleta</b>, filtre para não misturar orgânico com pago nem vídeos novos com antigos.</li>
+<li>Leia a coluna <b>Aviso</b>. "Amostra insuficiente (n&lt;3)" quer dizer que aquele grupo tem poucos vídeos e não prova nada.</li>
+</ol>
+<h4>Comparar Vídeos lado a lado</h4>
+<figure><img src="img/12-comparar-videos.jpg" alt="Comparar vídeos lado a lado, V07 contra V16" loading="lazy"><figcaption>Vídeo A, B e C (opcional). O melhor valor fica em verde; "≠ diferente" mostra onde divergem.</figcaption></figure>
+<ol class="steps">
+<li>Escolha o <b>Vídeo A</b> e o <b>Vídeo B</b> nas listas (e o C, se quiser).</li>
+<li>Compare linha por linha: duração, gatilho inicial, prova visual, rosto, métricas e ação recomendada.</li>
+<li>Dica do próprio painel: compare um vídeo do topo com um da base e anote o que muda no gancho e na demonstração.</li>
+</ol>
+<h4>Matriz Criativo × Engajamento</h4>
+<figure><img src="img/15-matriz.jpg" alt="Gráfico de dispersão com quatro quadrantes" loading="lazy"><figcaption>Cada ponto é um vídeo. Direita = criativo melhor; alto = público reagiu mais.</figcaption></figure>
+<ul>
+<li><b>⭐ Estrelas</b>: criativo forte e boa resposta. Copie a estrutura.</li>
+<li><b>🎲 Funcionou apesar do criativo</b>: investigue o que o público gostou (produto, preço, tema), sem copiar o criativo.</li>
+<li><b>💎 Criativo bom, resposta baixa</b>: teste um gancho novo antes de descartar.</li>
+<li><b>🧊 Fracos</b>: evite como referência.</li>
+</ul>
+<p>Clique num ponto do gráfico para abrir aquele vídeo.</p>
+<h4>Sensibilidade do Ranking</h4>
+<ol class="steps">
+<li>Mova o controle <b>Peso do criativo na nota</b> (o padrão é 60%).</li>
+<li>Observe as colunas: cada uma mostra o ranking com um peso diferente (100% criativo, 80/20, 40/60, 20/80, 100% desempenho).</li>
+<li>Confie mais nos vídeos marcados <b>Estável</b> (variam até 3 posições). Os <b>Instáveis</b> mudam muito conforme o peso e precisam ser assistidos com atenção.</li>
+</ol>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>Comparar uma bolsa tote com uma mochila é como comparar quem correu 100 metros com quem correu uma maratona: o tempo não diz quem é melhor. A Comparação Equivalente coloca maçã com maçã.</p><p>A Matriz é como um boletim: tem o aluno que estudou e tirou nota alta (estrela), o que não estudou e tirou nota alta por sorte (dado), o que estudou e foi mal na prova (diamante) e o que não estudou e foi mal (gelo).</p><p>A Sensibilidade é mudar o peso das provas na média final e ver se o primeiro da turma continua em primeiro. Se ele cai para o décimo, a liderança dele dependia só da regra.</p></div></details>
+
+<h3 id="a-seo">SEO, Legenda & CTA e Etapas do Conteúdo</h3>
+<div class="serve"><b>Para que serve:</b> avaliar o que o vídeo fala e escreve, e não só o que mostra. Esses pontos só entram na nota depois que uma pessoa revisa.</div>
+<figure><img src="img/13-seo-legenda.jpg" alt="Tabela de SEO falado com fala, legenda, hashtags e revisão" loading="lazy"><figcaption>Para cada vídeo: texto na tela, palavra-chave, fala, legenda, hashtags, revisão humana e pontos dos pilares 3 e 4.</figcaption></figure>
+<ol class="steps">
+<li>Para cada vídeo, cole a <b>Fala (transcrição do áudio)</b>, ou seja, o que é dito em voz alta. O texto escrito na tela não conta como fala.</li>
+<li>Preencha <b>Palavra-chave</b>, <b>Legenda</b> e <b>Hashtags</b>. O botão <span class="ui">⬇ Sugerir legenda e hashtags</span> preenche esses campos com o que veio da fonte original (só campos vazios). Nunca preenche a fala.</li>
+<li>Assista ao vídeo, confira tudo e marque <b>Conferi fala (áudio), legenda e hashtags</b>. Sem essa marcação, a pontuação fica como "prévia" e não entra na nota.</li>
+<li>Leia a coluna <b>Avisos</b>: palavra-chave não dita, sem CTA falada, mais de 5 hashtags, primeira linha acima de 150 caracteres etc.</li>
+</ol>
+<p>O painel pontua: palavra-chave dita 2 a 3 vezes, interação no fim, uma única CTA, primeira linha da legenda com até 150 caracteres e 3 a 5 hashtags sem #fyp ou #parati.</p>
+<h4>Etapas do Conteúdo</h4>
+<p>Tabela que marca, para cada vídeo, se aparecem <b>gancho (0–3s)</b>, <b>promessa (3–8s)</b>, <b>demonstração (8–20s)</b>, <b>prova (20–35s)</b> e <b>CTA (35–45s)</b>. Use a etapa que menos aparece (hoje é a CTA, em 33%) para pensar no próximo teste. Atenção: isso registra presença do elemento, não retenção real do público.</p>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>A palavra-chave falada é a etiqueta na pasta de um arquivo: ajuda o TikTok a "guardar" o vídeo na gaveta certa e mostrar para quem procura "bolsa tote para trabalho". Marcar "Conferi" é como o professor assinar a prova: antes disso, a nota é só um rascunho.</p></div></details>
+
+<h3 id="a-padroes">Padrões Recorrentes, Planos de Ação e Decisão Final</h3>
+<div class="serve"><b>Para que serve:</b> transformar o que se repete nos melhores vídeos em um plano de teste e dizer o que gravar a seguir.</div>
+<figure><img src="img/18-planos-acao.jpg" alt="Cartões de padrões com evidência, limitações, hipótese e próximo teste" loading="lazy"><figcaption>Cada cartão: evidência, vídeos que sustentam, contra-exemplos, limitações, hipótese e próximo teste.</figcaption></figure>
+<ol class="steps">
+<li>Em <span class="ui">🔥 Padrões Recorrentes</span>, veja quantos dos 10 melhores têm prova visual, rosto na câmera e a média de salvamentos.</li>
+<li>Em <span class="ui">🎯 Padrões → Planos de Ação</span>, leia cada cartão na ordem: evidência, vídeos, contra-exemplos, limitações, hipótese e próximo teste.</li>
+<li>Desconfie de padrões com poucos vídeos (n pequeno) ou com muitos contra-exemplos.</li>
+<li>Em <span class="ui">🧭 Decisão Final</span>, leia o <b>Resumo para decidir</b>. Hoje o primeiro da lista é <b>Rosto na câmera</b>: versão A só com mãos e bolsa, versão B com rosto.</li>
+<li>Clique em <span class="ui">➡ Abrir o gerador de roteiros para este teste</span> para levar a ideia direto à área Planejar.</li>
+</ol>
+<figure><img src="img/19-decisao-final.jpg" alt="Decisão Final com os três testes recomendados" loading="lazy"><figcaption>Decisão Final: os três padrões com maior diferença de nota e amostra mínima.</figcaption></figure>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>Um contra-exemplo é como perceber que quase todo mundo que leva guarda-chuva estava molhado, mas também ver pessoas com guarda-chuva perfeitamente secas. Isso mostra que o guarda-chuva sozinho não explica tudo. Se um padrão tem muitos contra-exemplos, ele não é uma receita garantida.</p><p>A Decisão Final é o "próximo prato a testar" do cardápio: o painel escolhe as três ideias com mais chance e você cozinha a primeira.</p></div></details>
+
+<h3 id="a-video">Analisar vídeo por objetivo (antes de publicar)</h3>
+<div class="serve"><b>Para que serve:</b> dar uma nota estruturada a um vídeo da Mafê antes de postar, conforme o objetivo, e montar um briefing para uma IA analisar.</div>
+<div class="callout atencao"><b>Primeiro carregue o vídeo</b>Se você clicar em "Calcular avaliação" sem escolher um arquivo, aparece "Selecione um vídeo antes de calcular a avaliação". O arquivo não sai do seu computador; ele só abre dentro da página.</div>
+<ol class="steps">
+<li>Em <b>1. Vídeo e objetivo</b>, clique em <b>Enviar vídeo do TikTok</b> e escolha o arquivo (MP4 ou MOV) no seu computador. O vídeo aparece num player.</li>
+<li>Se quiser guardar imagens do vídeo, use <span class="ui">Capturar quadro atual</span> ou <span class="ui">Capturar quadros-chave</span> (início, 3s, meio e fim).</li>
+<li>Escolha o <b>Objetivo principal</b>: Visualizações, Curtidas, Salvamentos, Comentários, Compartilhamentos ou Conversões. Marque objetivos secundários só se forem importantes.</li>
+<li>Preencha <b>Produto / oferta / público</b> e <b>Observações sobre o vídeo</b> (separe o que você viu do que supõe).</li>
+<li>Em <b>2. Pontuar cada critério</b>, assista ao vídeo inteiro uma vez e depois dê nota a cada um dos 10 critérios: 0 (ausente), 25 (fraco), 50 (parcial), 75 (bom) ou 100 (excelente). Pode deixar "Não avaliado".</li>
+<li>Para cada nota, escreva a <b>evidência</b> ("abre com a bolsa no ombro"), o <b>momento</b> em segundos, o <b>tipo de evidência</b> e a <b>confiança</b>. Sem isso, o resultado sai como "preliminar".</li>
+<li>Clique em <span class="ui">Calcular avaliação pelos critérios</span>.</li>
+<li>Leia <b>3. Resultado</b>: a nota ponderada (85–100 excelente, 70–84 bom, 50–69 precisa melhorar, abaixo de 50 prioritário), as prioridades em ordem, o que manter, corrigir ou testar e as alterações antes de publicar.</li>
+<li>Clique em <span class="ui">Salvar avaliação</span> para guardar, ou <span class="ui">Exportar relatório JSON</span>.</li>
+<li>Para uma análise com IA, clique em <span class="ui">Gerar briefing de análise para IA</span>, depois em <span class="ui">Copiar briefing</span>. Abra a IA de sua preferência, cole o texto e <b>anexe o mesmo vídeo</b> (e os quadros capturados). Cole a resposta da IA em <b>Conclusões adicionais da IA</b>.</li>
+</ol>
+<figure><img src="img/29b-resultado-avaliacao.jpg" alt="Resultado da avaliação com nota ponderada e prioridades" loading="lazy"><figcaption>Resultado de exemplo: 61,3/100 (precisa melhorar), confiança preliminar e lista de prioridades.</figcaption></figure>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>É a vistoria do carro antes de viajar: 10 itens (pneu, freio, óleo...) e cada um com um peso diferente conforme a viagem. Para viagem longa, o pneu pesa mais; para cidade, o freio. Aqui o objetivo do vídeo muda o peso de cada critério.</p><p>O briefing é o bilhete que você escreve para o mecânico explicando o problema. O bilhete sozinho não basta: você precisa levar o carro junto. Por isso o vídeo tem que ser anexado na IA.</p></div></details>
+
+<h3 id="a-outros">Central de Análise, Histórico de Métricas, Critérios & pesos e Manual</h3>
+<h4>Central de Análise & Ficha de Evidências</h4>
+<div class="serve"><b>Para que serve:</b> guardar uma ficha detalhada de cada vídeo assistido, dizendo de onde veio cada informação.</div>
+<ol class="steps">
+<li>Preencha <b>1 · Fonte, contexto & evidências</b>: identificação, produto, link, o que foi analisado, objetivo, datas, status de verificação, confiança, distribuição, público, duração, tipo de gancho, formato, gancho falado e observações.</li>
+<li>Preencha <b>2 · Métricas registradas</b>: visualizações, curtidas, comentários, compartilhamentos, salvamentos e, se for vídeo próprio, cliques, pedidos e investimento.</li>
+<li>Clique em <span class="ui">Salvar análise</span>. As fichas aparecem em <b>3 · Padrões encontrados</b> e podem ser exportadas em JSON ou CSV.</li>
+</ol>
+<h4>Histórico de Métricas & Snapshots</h4>
+<ol class="steps">
+<li>Uma vez por semana, atualize as métricas e clique em <span class="ui">Registrar snapshot das métricas</span>.</li>
+<li>Se souber a data e hora exatas em que os números foram vistos no TikTok, preencha <b>Data/hora real de captura</b> antes.</li>
+<li>Clique em <span class="ui">Atualizar histórico</span> para ver a linha do tempo. Só fica um snapshot por data; outro no mesmo dia substitui o anterior.</li>
+</ol>
+<h4>Critérios & pesos</h4>
+<p>Mostra os 10 critérios e quanto cada um pesa em cada objetivo. Para mudar: altere os números de uma coluna, confira se a soma dá exatamente 100% e clique em <span class="ui">Validar e salvar pesos personalizados</span>. Para voltar ao padrão, <span class="ui">Restaurar pesos sugeridos</span>. Avaliações antigas não são recalculadas sozinhas.</p>
+<h4>Manual completo de uso</h4>
+<p>Treinamento dentro do próprio painel em 5 etapas (Analisar, Planejar, Produzir, Testar, Otimizar e vender), cada uma com checklist. Clique no nome da etapa para abrir.</p>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>O snapshot é como marcar a altura de uma criança na parede todo mês. Vídeos novos "crescem" rápido nos primeiros dias e depois param. Por isso se compara vídeos na mesma idade, assim como se compara crianças da mesma idade.</p></div></details>
+</section>
+
+<!-- 8 PLANEJAR -->
+<section id="planejar">
+<h2>8. Área 2 · Planejar</h2>
+<p>Aqui a ideia vira roteiro. Regra de base: <b>um objetivo principal por vídeo</b> e só informações verdadeiras (não inventar preço, estoque, avaliações ou capacidade).</p>
+
+<h3>Ganchos & SEO</h3>
+<div class="serve"><b>Para que serve:</b> consulta rápida de modelos de abertura (status, dor/espaço, transformação, achadinho), CTAs faladas e escritas e um modelo de legenda.</div>
+<figure><img src="img/30-ganchos-seo.jpg" alt="Matriz de ganchos e estrutura de SEO" loading="lazy"><figcaption>Fórmulas de gancho à esquerda; CTAs e modelo de legenda à direita.</figcaption></figure>
+<p>Use como cardápio: escolha um gancho, troque as partes entre colchetes pelos dados reais do produto. A legenda deve ser curta: a primeira linha só precisa gerar o clique; os detalhes ficam na página do produto.</p>
+
+<h3>Roteiro por Objetivo</h3>
+<div class="serve"><b>Para que serve:</b> gerar um plano pronto para gravar: 3 opções de gancho, roteiro por tempo (o que filmar, o que falar, o que escrever na tela), legenda e checklist.</div>
+<ol class="steps">
+<li>Em <b>Objetivo principal</b>, escolha um: Visualizações, Curtidas, Comentários, Salvamentos, Compartilhamentos, Engajamento bruto ou Conversão.</li>
+<li>Preencha <b>Produto / categoria</b> (ex.: bolsa tote caramelo), <b>Situação de uso / público</b> (ex.: trabalho e faculdade) e <b>Benefício ou detalhe real a demonstrar</b> (ex.: cabe notebook de 14").</li>
+<li>Se tiver, preencha <b>Prova real disponível</b> e <b>Destino da ação</b> (ex.: carrinho do TikTok Shop).</li>
+<li>Escolha <b>Duração</b> (15, 20, 30 ou 45 segundos) e <b>Formato de gravação</b> (packing, produto no corpo, review falado, transformação 2 em 1, unboxing).</li>
+<li>Clique em <span class="ui">✨ Gerar roteiro e legenda</span>.</li>
+<li>Leia o plano: escolha <b>um</b> dos ganchos A, B ou C, siga a tabela de tempos na gravação e revise o checklist antes de publicar.</li>
+<li>Clique em <span class="ui">📋 Copiar plano completo</span> para mandar à pessoa que vai gravar.</li>
+</ol>
+<figure><img src="img/31-roteiro-gerado.jpg" alt="Roteiro gerado com ganchos e tabela por tempo" loading="lazy"><figcaption>Roteiro gerado para o objetivo Salvamentos.</figcaption></figure>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>É uma receita de bolo já com as medidas: você diz que tipo de bolo quer (objetivo) e quais ingredientes tem (produto, benefício, prova), e o painel devolve o passo a passo com tempo de forno. Mas quem prova é o público: a receita pode precisar de ajuste.</p></div></details>
+
+<h3>Criar vídeos para um produto</h3>
+<div class="serve"><b>Para que serve:</b> cadastrar a ficha completa de uma bolsa e gerar 3 ideias de vídeo ou um briefing completo para IA.</div>
+<ol class="steps">
+<li>Em <b>1. Ficha do produto</b>, preencha nome, preço (só se confirmado), ocasião de uso, características comprovadas, benefícios que podem ser demonstrados, público-alvo, dores, desejos, dúvidas e objeções, oferta confirmada e destino da compra.</li>
+<li>Se quiser, adicione <b>Imagens do produto</b> (servem só para visualizar na página).</li>
+<li>Escolha o <b>Objetivo principal</b> e clique em <span class="ui">Salvar ficha do produto</span>.</li>
+<li>Clique em <span class="ui">Gerar 3 ideias com modelos locais</span>. Cada ideia vem com ganchos, roteiro por cenas, CTA, 5 legendas e hashtags.</li>
+<li>Para aprofundar, clique em <span class="ui">Continuar ficha no gerador de roteiro completo</span> ou em <span class="ui">Gerar briefing completo para IA</span> e depois <span class="ui">Copiar briefing</span>. Na IA, anexe também as fotos do produto.</li>
+</ol>
+<p>O botão <span class="ui">Gerar estratégia personalizada com IA</span> só funciona se alguém tiver configurado um servidor de IA no Centro de Inteligência V4 (seção 11). Sem isso, use o briefing.</p>
+
+<h3>Biblioteca de ganchos, CTAs e legendas</h3>
+<ol class="steps">
+<li>Escolha o <b>Objetivo</b>, digite o <b>Produto ou conceito</b> e o <b>Benefício demonstrável</b>.</li>
+<li>Clique em <span class="ui">Gerar ganchos, CTAs e 5 legendas</span>.</li>
+<li>Use cada gancho em uma versão diferente do vídeo, em vez de misturar todos num só.</li>
+</ol>
+
+<h3>Texto Flutuante, Fala Estratégica e Mapa do Vídeo</h3>
+<ul>
+<li><b>💬 Texto Flutuante Overlay</b>: digite o produto e o diferencial; o painel sugere o texto da tela para 0–3s, 3–20s e 35–45s, pensando em quem assiste sem som.</li>
+<li><b>🎙️ Fala Estratégica</b>: digite nome e categoria exata do produto, benefício e, se houver, uma prova social real. O painel monta uma fala que repete a palavra-chave 2 a 3 vezes. Use <span class="ui">📋 Copiar Roteiro</span>.</li>
+<li><b>🗺️ Mapa do Vídeo (0–45s)</b>: a estrutura em 5 partes: gancho, promessa, conteúdo, prova e CTA. Serve de referência, não de obrigação de duração.</li>
+</ul>
+<figure><img src="img/33-fala.jpg" alt="Gerador de fala estratégica" loading="lazy"><figcaption>Fala gerada com a palavra-chave dita 3 vezes.</figcaption></figure>
+
+<h3>6 Técnicas de Retenção, Roteiros Detalhados e Quebra de Objeções</h3>
+<ul>
+<li><b>🧲 6 Técnicas de Retenção</b>: loop de curiosidade, cortes rápidos, texto na tela, revelar em camadas, pausas estratégicas e incentivo ao replay.</li>
+<li><b>🎬 Roteiros Detalhados</b>: exemplo completo de 0 a 45s com tomada visual, áudio e texto na tela. Troque os colchetes por fatos confirmados.</li>
+<li><b>💬 Quebra de Objeções</b>: como responder com imagem às dúvidas "o zíper é resistente?", "cabe caderno?" e "a alça machuca?".</li>
+</ul>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>O gancho é a vitrine da loja: se não chama atenção em 3 segundos, a pessoa passa reto. O mapa do vídeo é como contar uma piada: começo que prende, desenvolvimento, e o final (CTA) que é a "placa de saída", uma só e bem visível. A quebra de objeções é o vendedor que, em vez de dizer "pode confiar", abre e fecha o zíper na sua frente.</p></div></details>
+</section>
+
+<!-- 9 TESTAR -->
+<section id="testar">
+<h2>9. Área 3 · Testar</h2>
+<p>Esta área serve para os <b>vídeos da própria Mafê</b>. Os 26 de referência não têm cliques nem pedidos, então não entram em testes de venda. A regra principal: <b>mude uma coisa só por teste</b>.</p>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>Se você muda o açúcar e a temperatura do forno ao mesmo tempo e o bolo fica melhor, não dá para saber qual das duas mudanças ajudou. No vídeo é igual: se trocar o gancho e a música juntos, você não descobre o que fez diferença.</p></div></details>
+
+<h3>Protocolo de Decisão & Aprendizado</h3>
+<div class="serve"><b>Para que serve:</b> escrever a aposta antes de testar e registrar a decisão depois, criando um histórico do que a Mafê aprendeu.</div>
+<ol class="steps">
+<li>Em <b>1. Antes de comparar</b>, marque só os critérios que são verdade: mesmo objetivo, mesmo produto, contexto parecido, dados suficientes, uma variável por vez, resultado medido em vídeo próprio. O painel classifica a comparação, de "Comparação fraca" até "Comparação relativamente bem controlada".</li>
+<li>Em <b>2. Registrar hipótese e teste</b>, preencha: nome curto, objetivo principal, hipótese no formato "Se… então… porque…", variável, versão A, versão B, métrica principal e prazo de leitura.</li>
+<li>Preencha <b>Critério de sucesso definido antes de publicar</b> (ex.: "B pelo menos 20% acima de A"). Isso evita mudar a regra depois de ver o resultado.</li>
+<li>Deixe <b>Decisão</b> como "Planejado — ainda sem resultado" e clique em <span class="ui">＋ Salvar registro</span>.</li>
+<li>Depois do teste, volte, preencha <b>Resultado observado</b> (só números reais), escolha a decisão (Repetir, Manter como promissora, Adotar provisoriamente ou Descartar) e o <b>Aprendizado / próximo teste</b>.</li>
+</ol>
+<p>Se faltar algum campo obrigatório, o painel avisa: "Preencha nome, objetivo, hipótese, variável, métrica principal e critério de sucesso antes de salvar." O histórico pode ser exportado em CSV.</p>
+<figure><img src="img/42-protocolo-salvo.jpg" alt="Protocolo de decisão com hipótese salva no histórico" loading="lazy"><figcaption>Hipótese "Preço no gancho" salva no histórico.</figcaption></figure>
+
+<h3>Ciclo de Testes A/B</h3>
+<ol class="steps">
+<li>Em <b>1. Cadastrar novo teste</b>, dê um nome, informe o <b>Vídeo A (controle)</b> e o <b>Vídeo B (variante)</b>, por exemplo V27 e V28.</li>
+<li>Escolha a <b>Variável alterada</b> (só uma): gancho, demonstração, CTA, texto/legenda ou oferta/preço.</li>
+<li>Escolha a <b>Distribuição</b> (orgânica, paga ou mista), a <b>Métrica primária</b>, o <b>Orçamento</b> (se pago) e o <b>Volume mínimo por variante</b> (ex.: 5.000 visualizações).</li>
+<li>Marque <b>Mantive as demais variáveis constantes</b> só se for verdade, escreva a hipótese e clique em <span class="ui">💾 Cadastrar Experimento A/B</span>.</li>
+<li>O teste aparece em <b>2. Experimentos em andamento</b>. Quando houver resultado, preencha início e fim da janela, investimento e os números de A e de B, e clique em <span class="ui">Salvar resultados e recalcular</span>.</li>
+</ol>
+<figure><img src="img/40-ciclo-ab.jpg" alt="Ciclo de testes A/B com experimento cadastrado" loading="lazy"><figcaption>Experimento cadastrado aguardando os resultados de A e B.</figcaption></figure>
+
+<h3>Comparar testes do criativo</h3>
+<p>Formulário para comparar o resultado de A e B com <b>denominadores</b> (por exemplo, salvamentos de A e visualizações de A). Marque o checklist de equivalência (público, produto, janela, distribuição, investimento, uma variável) e clique em <span class="ui">Calcular e salvar comparação</span>. O painel mostra a diferença observada, mas <b>não</b> calcula significância estatística nem declara vencedor definitivo.</p>
+
+<h3>Ferramentas de apoio ao teste</h3>
+<div class="tablewrap"><table>
+<thead><tr><th style="width:32%">Seção</th><th>Como usar</th></tr></thead>
+<tbody>
+<tr><td><b>⚡ Testes A/B Ganchos</b></td><td>Escolha o modelo de bolsa (Tote, Mochila 2 em 1, Baguete) e receba 3 ganchos prontos: status, dor/espaço e curiosidade.</td></tr>
+<tr><td><b>🎬 Matriz 1 Corpo = 6 Ads</b></td><td>Grave um único "meio" de vídeo e combine com 3 ganchos e 2 CTAs, formando 6 versões. Use <span class="ui">📋 Copiar Matriz</span>.</td></tr>
+<tr><td><b>📹 Auditoria de Vídeo Próprio</b></td><td>Envie o vídeo, escreva gancho, desenvolvimento, CTA, legenda (o contador mostra se passou de 150 caracteres) e hashtags; marque o checklist e clique em <span class="ui">🔍 Realizar Auditoria</span>. Sai uma nota de aderência de 0 a 10.</td></tr>
+<tr><td><b>⚡ Checklist 3s Retenção</b></td><td>Marque os 4 itens da abertura: aproximação rápida, texto de alto contraste, primeiro corte antes de 2s e sem "olá, gente".</td></tr>
+<tr><td><b>🧮 Simulador de Roteiro</b></td><td>Desmarque o que o seu plano não tem; a pontuação (máximo 10) mostra o quanto o roteiro segue o checklist. <span class="ui">📋 Gerar Briefing</span> copia o resumo.</td></tr>
+<tr><td><b>🤖 Preparar análise com IA</b></td><td>Lista de conferência antes de mandar vídeos, prints e links para uma IA. Ela só organiza; não lê nem processa arquivos.</td></tr>
+</tbody></table></div>
+<figure><img src="img/47-simulador.jpg" alt="Simulador de roteiro com checklist e pontuação" loading="lazy"><figcaption>Simulador de Roteiro: cada item marcado soma pontos até 10,0.</figcaption></figure>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>A Matriz 1 corpo = 6 anúncios é como uma lanchonete que faz o mesmo hambúrguer e muda só o pão (3 tipos) e o molho (2 tipos): seis lanches diferentes com um único trabalho de chapa. O Simulador é o checklist do piloto antes de decolar: não garante a viagem perfeita, mas evita esquecer algo básico.</p></div></details>
+</section>
+
+<!-- 10 VENDER -->
+<section id="vender">
+<h2>10. Área 4 · Vender com Eficiência</h2>
+<p>Esta área liga o vídeo ao dinheiro. Ela fica <b>bloqueada</b> com a mensagem "🔒 Esta seção só vale para vídeos próprios da Mafê" até existir pelo menos um vídeo marcado como <b>Próprio da Mafê</b> (no cadastro ou na tabela de Confiabilidade).</p>
+<div class="flow"><span>Visualizações</span><i>→</i><span>Cliques</span><i>→</i><span>Pedidos</span><i>→</i><span>Receita</span><i>→</i><span>Margem</span></div>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>Pense numa loja de rua: muita gente passa na calçada (visualizações), algumas entram (cliques), menos ainda compram (pedidos), o caixa registra o valor (receita) e, no fim do mês, sobra uma parte depois de pagar fornecedor, taxas e aluguel (margem). Se muita gente entra e pouca compra, o problema está dentro da loja (preço, página, frete), não na vitrine.</p></div></details>
+
+<h3>Ponte Criativo → Vendas</h3>
+<ol class="steps">
+<li>Em <b>Selecione o vídeo</b>, escolha um vídeo marcado "· próprio" (os da Mafê aparecem primeiro na lista).</li>
+<li>Digite <b>Cliques no produto</b> e <b>Pedidos atribuídos</b>, da mesma janela de tempo das visualizações.</li>
+<li>Clique em <span class="ui">💾 Salvar cliques e pedidos</span>.</li>
+<li>Leia o funil de 5 cartões. Cada um diz de onde veio o número: <b>[OBSERVADO]</b> é o que você informou; <b>[CALCULADO COM PREMISSAS EDITÁVEIS]</b> usa preço e custos da calculadora abaixo.</li>
+<li>Leia o <b>Diagnóstico comercial</b> no rodapé.</li>
+</ol>
+<figure><img src="img/50-ponte-comercial.jpg" alt="Ponte comercial com funil de visualizações, cliques, pedidos, receita e margem" loading="lazy"><figcaption>Exemplo: 58 mil views, 1.200 cliques (2,07%), 36 pedidos (3%), receita estimada de R$ 4.676,40.</figcaption></figure>
+
+<h3>Calculadora Spark Ads & ROAS</h3>
+<div class="serve"><b>Para que serve:</b> descobrir quanto você pode pagar por venda em anúncio sem ter prejuízo, antes de investir.</div>
+<div class="callout atencao"><b>Troque os valores de exemplo</b>A calculadora vem com R$ 129,90 de preço, R$ 45,00 de custo e 12% de taxas. São só exemplos. Coloque os valores reais da bolsa.</div>
+<ol class="steps">
+<li>Preencha <b>Preço de venda</b>, <b>Custo do produto</b>, <b>Desconto por pedido</b>, <b>Impostos + taxas (%)</b>, <b>Frete subsidiado</b>, <b>Embalagem</b> e <b>Outros custos por pedido</b>.</li>
+<li>Leia os três resultados: <b>Margem unitária</b> (quanto sobra por bolsa), <b>CPA de equilíbrio</b> (o máximo que você pode pagar em anúncio por venda sem perder dinheiro) e <b>ROAS de equilíbrio</b> (o mínimo de retorno para empatar).</li>
+<li>Se cada modelo tiver preço e custo diferentes, preencha a tabela <b>Preço e custo por modelo</b> (Tote, Hobo, Shoulder, Baguete, Mochila, Baú). Em branco, vale o valor geral.</li>
+</ol>
+<p>Exemplo com os valores padrão: margem de R$ 69,31 por bolsa. Se você paga mais de R$ 69,31 de anúncio para cada venda, está perdendo dinheiro. O ROAS de equilíbrio é 1,87x: cada R$ 1 de anúncio precisa trazer pelo menos R$ 1,87 em vendas.</p>
+<figure><img src="img/51-calculadora-roas.jpg" alt="Calculadora de ROAS com margem unitária, CPA e ROAS de equilíbrio" loading="lazy"><figcaption>Calculadora com os valores de exemplo.</figcaption></figure>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>Se você vende uma bolsa e, depois de pagar a fábrica, as taxas e a embalagem, sobram R$ 69 no bolso, não faz sentido gastar R$ 80 em propaganda para vender essa bolsa. O CPA de equilíbrio é esse teto. O ROAS é a pergunta "para cada real que coloquei no anúncio, quantos reais voltaram em vendas?". Atenção: vendas não são lucro, por isso o ROAS sozinho engana.</p></div></details>
+
+<h3>Resultado Financeiro Real</h3>
+<ol class="steps">
+<li>Informe <b>Investimento em mídia</b>, <b>Pedidos atribuídos a anúncios</b>, <b>Pedidos orgânicos</b>, <b>Cancelamentos (%)</b>, <b>Devoluções (%)</b> e <b>Perda por devolução</b>.</li>
+<li>A tabela separa o resultado <b>Pago</b>, <b>Orgânico</b> e <b>Total</b>, já usando os custos da calculadora.</li>
+</ol>
+
+<h3>Painel de resultados reais</h3>
+<div class="serve"><b>Para que serve:</b> registrar o resultado completo de cada vídeo publicado da Mafê, com todos os custos, e calcular a contribuição.</div>
+<ol class="steps">
+<li>Preencha identificação, data, objetivo definido antes da publicação e a <b>Fonte dos dados</b> (Analytics do TikTok, relatório exportado, registro manual ou estimativa — estimativa não serve para conclusão).</li>
+<li>Preencha as métricas: visualizações, interações, duração, tempo médio, taxa de conclusão, cliques, pedidos e receita.</li>
+<li>Preencha os custos: anúncios, mercadoria, taxas, comissões, impostos, frete, embalagem, descontos, devoluções e outros. Use R$ 0 só quando de fato não houve aquele custo.</li>
+<li>Marque a confirmação de que custos em branco podem ser tratados como zero, se for o caso, e clique em <span class="ui">Calcular e salvar resultados</span>.</li>
+<li>Veja <b>2. Visão comparativa e diagnóstico</b>. Exporte com <span class="ui">Exportar painel CSV</span> ou faça <span class="ui">Backup JSON</span>.</li>
+</ol>
+
+<h3>Gravação em Lote, Respostas Rápidas, Comentário Fixado</h3>
+<ul>
+<li><b>📦 Gravação em Lote</b>: agrupa as gravações por cenário. Setup 1 (mesa, sem rosto) para testes de packing; Setup 2 (rosto e espelho) para ganchos e escala no corpo. <span class="ui">📋 Copiar Ordem do Dia</span> gera a lista.</li>
+<li><b>💬 Respostas Rápidas</b>: modelos para responder "cabe notebook?", "a alça machuca?", "qual o frete?". Preencha os colchetes só com fatos conferidos e clique em <span class="ui">Copiar</span>.</li>
+<li><b>📌 Comentário Fixado</b>: 3 modelos de comentário para fixar no topo do vídeo (capacidade + frete, cores + estoque, prova social). Use a opção 3 só se houver avaliações reais publicadas.</li>
+</ul>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>Gravar em lote é como fazer as marmitas da semana de uma vez: monta a cozinha uma vez só e aproveita. O comentário fixado é o aviso preso no mural da entrada, que responde a dúvida antes de a pessoa perguntar.</p></div></details>
+
+<h3>Relatório por Objetivo</h3>
+<ol class="steps">
+<li>Clique no objetivo: <span class="ui">Mais Curtidas</span>, <span class="ui">Mais Comentários</span>, <span class="ui">Mais Compartilhamentos</span>, <span class="ui">Mais Engajamento</span> ou <span class="ui">Maior Conversão</span>.</li>
+<li>O painel mostra a estratégia, os vídeos de referência que mais se destacam nesse objetivo, um roteiro por etapa, uma legenda e uma CTA.</li>
+<li>Use <span class="ui">📋 Copiar relatório</span>, <span class="ui">⬇️ Baixar (.md)</span> ou <span class="ui">🗑️ Limpar</span>.</li>
+</ol>
+<p><b>Maior Conversão</b> só funciona se houver um vídeo próprio com cliques e pedidos registrados. Sem isso, o painel avisa que faltam dados.</p>
+<figure><img src="img/58-relatorio-objetivo.jpg" alt="Relatório por objetivo Maior Conversão" loading="lazy"><figcaption>Relatório de conversão gerado a partir do vídeo de exemplo.</figcaption></figure>
+
+<h3>Decisão por Hipótese</h3>
+<ol class="steps">
+<li>Veja os princípios já cadastrados (ex.: "mostrar a bolsa no corpo nos primeiros 3s aumenta a retenção"). Cada um começa como <b>Não testada</b>.</li>
+<li>Em cada cartão, escolha o <b>Experimento vinculado</b> (um teste do Ciclo A/B) e a <b>Variante esperada</b> (qual deveria vencer).</li>
+<li>Ajuste o <b>Status</b> para Em teste, Suportada, Refutada ou Inconclusiva conforme o resultado. Uma única comparação é estimativa; repita antes de virar regra.</li>
+<li>Para criar uma nova, preencha <b>Nova hipótese</b>, a variável testada e a variante que deve vencer, e clique em <span class="ui">➕ Adicionar hipótese</span>.</li>
+</ol>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>É como um julgamento: cada hipótese é "acusada" de funcionar, mas só é considerada verdadeira (Suportada) quando há prova. Sem prova suficiente, o caso fica "Inconclusivo", e ninguém é condenado por suspeita.</p></div></details>
+</section>
+
+<!-- 11 CENTRO -->
+<section id="centro">
+<h2>11. Centro de Inteligência V4</h2>
+<p>Fica no fim da área Vender. Reúne funções avançadas em 8 blocos que se abrem com um clique.</p>
+<div class="tablewrap"><table>
+<thead><tr><th style="width:38%">Bloco</th><th>O que faz e se precisa de algo extra</th></tr></thead>
+<tbody>
+<tr><td>1. Integração segura com IA multimodal</td><td>Envia vídeos a uma IA. <b>Só funciona com um servidor próprio configurado</b> por alguém técnico. Sem isso, use <span class="ui">Preparar briefing sem enviar</span>. Nunca cole chave de API nesta página.</td></tr>
+<tr><td>2. Próxima ação recomendada</td><td><span class="ui">Diagnosticar e priorizar até 3 ações</span> com base nos seus vídeos, testes e análises. Com menos de 3 publicações comparáveis, as sugestões aparecem como hipóteses.</td></tr>
+<tr><td>3. Metas por objetivo</td><td>Escolha uma métrica (ex.: cliques ÷ visualizações), informe a meta e clique em <span class="ui">Salvar / atualizar meta</span> para acompanhar os vídeos da Mafê.</td></tr>
+<tr><td>4. Normalizar as 26 referências</td><td>Compara as referências por mil visualizações (curtidas, salvos, comentários, compartilhamentos por mil). Permite cadastrar a data de publicação de cada referência.</td></tr>
+<tr><td>5. Banco de conhecimento da Mafê</td><td>Registre aprendizados: hipótese, observação, resultado, aprendizado e decisão. Clique em <span class="ui">Salvar aprendizado</span>.</td></tr>
+<tr><td>6. Backup completo, snapshots e recuperação</td><td>Mesmo backup do menu Dados, mais <span class="ui">Criar snapshot agora</span> e restauração de snapshots internos.</td></tr>
+<tr><td>7. Sincronização entre dispositivos</td><td>Conector preparado, mas <b>exige um servidor próprio</b>. Sem ele, continue usando o backup.</td></tr>
+<tr><td>8. Testes de qualidade</td><td><span class="ui">Executar bateria de testes</span> confere se o painel está funcionando.</td></tr>
+</tbody></table></div>
+<details class="analogia"><summary>Ver comparação do dia a dia</summary><div class="inner"><p>A integração com IA e a sincronização são como uma tomada instalada na parede de uma casa nova: a tomada está pronta, mas sem a energia ligada (o servidor) nada funciona. Até alguém ligar a energia, use o "gerador" manual, que é o briefing copiado e o backup.</p></div></details>
+</section>
+
+<!-- 12 RECEITAS -->
+<section id="receitas">
+<h2>12. Receitas prontas para tarefas comuns</h2>
+<h3>"Quero saber qual vídeo gravar esta semana"</h3>
+<ol class="steps">
+<li><span class="ui">🧭 Decisão Final</span> → leia o primeiro teste da lista.</li>
+<li>Clique em <span class="ui">➡ Abrir o gerador de roteiros para este teste</span>.</li>
+<li>Gere o roteiro e copie o plano completo.</li>
+<li>Registre a hipótese no <span class="ui">🧭 Protocolo de Decisão</span>.</li>
+</ol>
+<h3>"Publiquei um vídeo da Mafê e quero registrá-lo"</h3>
+<ol class="steps">
+<li><span class="ui">➕ Novo Vídeo</span> → preencha rubrica, produto, link e métricas.</li>
+<li>Em Tipo de vídeo, escolha <b>Próprio da Mafê</b> e salve.</li>
+<li>Em <span class="ui">🛡️ Confiabilidade</span>, preencha origem, data de coleta, tráfego e marque Confirmado.</li>
+<li>Na <span class="ui">🌉 Ponte Comercial</span>, registre cliques e pedidos.</li>
+<li>Faça o backup.</li>
+</ol>
+<h3>"Quero avaliar um vídeo antes de postar"</h3>
+<ol class="steps">
+<li><span class="ui">🎞️ Analisar vídeo por objetivo</span> → carregue o arquivo e escolha o objetivo.</li>
+<li>Pontue os 10 critérios com evidência e calcule.</li>
+<li>Corrija as prioridades marcadas "Corrigir antes de publicar".</li>
+<li>Passe também pelo <span class="ui">⚡ Checklist 3s</span> e pelo <span class="ui">🧮 Simulador de Roteiro</span>.</li>
+</ol>
+<h3>"Quero testar dois ganchos"</h3>
+<ol class="steps">
+<li>Gere ganchos em <span class="ui">⚡ Testes A/B Ganchos</span> ou na <span class="ui">🧲 Biblioteca de ganchos</span>.</li>
+<li>Grave o mesmo vídeo com os dois ganchos, sem mudar mais nada.</li>
+<li>Cadastre os dois como Próprio da Mafê e crie o experimento no <span class="ui">🧪 Ciclo de Testes A/B</span>.</li>
+<li>Após a janela combinada, registre os resultados de A e B e decida no Protocolo.</li>
+</ol>
+<h3>"Quero saber se um vídeo deu lucro"</h3>
+<ol class="steps">
+<li>Coloque os custos reais na <span class="ui">🧮 Calculadora Spark Ads & ROAS</span>.</li>
+<li>Registre cliques e pedidos na <span class="ui">🌉 Ponte Comercial</span>.</li>
+<li>Preencha tudo no <span class="ui">📊 Painel de resultados reais</span> e clique em Calcular e salvar.</li>
+<li>Compare a contribuição com o investimento em anúncio.</li>
+</ol>
+<h3>"Vou trocar de computador"</h3>
+<ol class="steps">
+<li><span class="ui">💾 Dados ▾</span> → <span class="ui">Backup completo (JSON)</span> no computador antigo.</li>
+<li>No novo: <span class="ui">💾 Dados ▾</span> → <span class="ui">Restaurar backup</span> e escolha o arquivo.</li>
+</ol>
+</section>
+
+<!-- 13 PROBLEMAS -->
+<section id="problemas">
+<h2>13. Deu algo errado? Problemas comuns</h2>
+<div class="tablewrap"><table>
+<thead><tr><th style="width:38%">O que aconteceu</th><th>Por que e como resolver</th></tr></thead>
+<tbody>
+<tr><td>Meus vídeos cadastrados sumiram.</td><td>Você provavelmente está em outro navegador, outro aparelho, numa janela anônima, ou o navegador foi limpo. Volte ao aparelho original ou restaure o último backup.</td></tr>
+<tr><td>A área Vender mostra 🔒 e não deixa preencher.</td><td>Nenhum vídeo está marcado como Próprio da Mafê. Cadastre um em Novo Vídeo com esse tipo, ou mude o Tipo na tabela de Confiabilidade.</td></tr>
+<tr><td>Não consigo marcar a caixinha de um vídeo na Biblioteca.</td><td>É uma referência (V01–V26), que é protegida. Só vídeos cadastrados por você podem ser marcados e comparados.</td></tr>
+<tr><td>Não consigo mudar os números de um vídeo de referência.</td><td>É de propósito: as referências são somente leitura para não estragar a base de estudo.</td></tr>
+<tr><td>"Selecione um vídeo antes de calcular a avaliação."</td><td>Em Analisar vídeo por objetivo, carregue o arquivo do vídeo primeiro, no campo Enviar vídeo do TikTok.</td></tr>
+<tr><td>Relatório "Maior Conversão" diz que não há dados.</td><td>Registre cliques e pedidos de pelo menos um vídeo próprio na Ponte Comercial.</td></tr>
+<tr><td>A pontuação de SEO aparece como "prévia".</td><td>Falta marcar "Conferi" depois de revisar fala, legenda e hashtags daquele vídeo.</td></tr>
+<tr><td>O download do backup ou relatório não aconteceu.</td><td>Use <span class="ui">Dados ▾ → 📋 Copiar último arquivo gerado</span> e salve o texto manualmente.</td></tr>
+<tr><td>Os pesos não salvam.</td><td>Em Critérios & pesos, cada coluna precisa somar exatamente 100%.</td></tr>
+<tr><td>"Gerar estratégia personalizada com IA" não funciona.</td><td>Precisa de um servidor configurado no Centro de Inteligência V4. Use "Gerar briefing completo para IA" e cole numa IA.</td></tr>
+<tr><td>A letra está pequena ou a tela apertada.</td><td>Use o <span class="ui">+</span> do zoom no alto e recolha o menu lateral com <span class="ui">‹</span>.</td></tr>
+<tr><td>O painel parece estranho ou com números esquisitos.</td><td>Rode <span class="ui">Dados ▾ → 🧪 Verificar integridade</span> e veja os Alertas de Qualidade.</td></tr>
+</tbody></table></div>
+</section>
+
+<!-- 14 REGRAS -->
+<section id="regras">
+<h2>14. Regras de ouro</h2>
+<ol class="steps">
+<li><b>Engajamento não é venda.</b> Curtidas e salvamentos mostram atenção. Venda só se prova com cliques e pedidos de vídeos da Mafê.</li>
+<li><b>Um objetivo por vídeo e uma variável por teste.</b></li>
+<li><b>Campo vazio não é zero.</b> Se não sabe, deixe em branco.</li>
+<li><b>Nunca invente</b> preço, estoque, avaliações, capacidade ou resistência em roteiros, legendas e respostas.</li>
+<li><b>Compare só o que é comparável</b>: mesmo tipo de bolsa, mesmo período, mesmo tipo de tráfego. Menos de 3 vídeos não provam nada.</li>
+<li><b>Escreva a hipótese e o critério de sucesso antes</b> de ver o resultado.</li>
+<li><b>Mostre a bolsa de verdade</b>: tamanho no corpo, objetos entrando, acabamento. É a Regra de Ouro da Mafê, escrita no rodapé do menu do painel.</li>
+<li><b>Faça backup</b> ao fim de cada dia de trabalho.</li>
+</ol>
+</section>
+
+<footer>
+Manual elaborado a partir do Radar Criativo Mafê v4 (Inteligência e Validação), com 26 vídeos de referência coletados em 21/10/2026. As imagens são capturas reais do sistema; os vídeos V27 e V28 e os números de cliques e pedidos que aparecem em algumas imagens foram criados só para demonstrar o funcionamento.
+</footer>
+</div>
+</main>
+</div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-label="Imagem ampliada"><img alt=""></div>
+
+<script>
+(function(){
+  var all = function(){ return document.querySelectorAll('details.analogia:not(.mobile-toc)'); };
+  document.getElementById('abrirTodas').addEventListener('click', function(){ all().forEach(function(d){ d.open = true; }); });
+  document.getElementById('fecharTodas').addEventListener('click', function(){ all().forEach(function(d){ d.open = false; }); });
+  var lb = document.getElementById('lightbox'), lbImg = lb.querySelector('img');
+  document.querySelectorAll('figure img').forEach(function(img){
+    img.addEventListener('click', function(){ lbImg.src = img.src; lbImg.alt = img.alt; lb.classList.add('on'); });
+  });
+  lb.addEventListener('click', function(){ lb.classList.remove('on'); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') lb.classList.remove('on'); });
+  var toc = document.querySelector('nav.toc > ol');
+  var target = document.getElementById('mobileTocInner');
+  if (toc && target) {
+    var clone = toc.cloneNode(true);
+    clone.style.paddingLeft = '0';
+    target.appendChild(clone);
+    target.addEventListener('click', function(e){ if(e.target.tagName === 'A'){ target.closest('details').open = false; } });
+  }
+  window.addEventListener('beforeprint', function(){ all().forEach(function(d){ d.open = true; }); });
+})();
+</script>
+</body>
+</html>
